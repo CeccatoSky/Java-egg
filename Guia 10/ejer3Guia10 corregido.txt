@@ -1,0 +1,92 @@
+
+
+
+public class Alumno {
+    private String nombre;
+    private List<Integer> notas;
+
+    public Alumno(String nombre, List<Integer> notas) {
+        this.nombre = nombre;
+        this.notas = notas;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public List<Integer> getNotas() {
+        return notas;
+    }
+    
+    public double notaFinal() {
+        double promedio = 0;
+        for (Integer nota : notas) {
+            promedio += nota;
+        }
+        promedio /= notas.size();
+        return promedio;
+    }
+}
+---------------------------------------------------------------
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ServicioAlumno {
+
+    private Scanner leer = new Scanner(System.in).useDelimiter("\n");
+    private List<Alumno> listaAlumnos = new ArrayList<>();
+
+    public void crearAlumnos() {
+        String resp;
+        do {
+            System.out.println("Ingrese el nombre del alumno");
+            String nombre = leer.next();
+
+            List<Integer> notas = new ArrayList<>();
+            System.out.println("Ingrese las notas del alumno");
+
+            for (int i = 1; i <= 3; i++) {
+                System.out.println("Nota " + i + ": ");
+                notas.add(leer.nextInt());
+            }
+
+            Alumno alumno = new Alumno(nombre, notas);
+            listaAlumnos.add(alumno);
+
+            System.out.println("¿Desea continuar? S/N");
+            resp = leer.next();
+        } while (resp.equalsIgnoreCase("s"));
+    }
+
+    public void buscarAlumno() {
+        System.out.println("Ingrese el nombre del alumno que desea buscar");
+        String nombre = leer.next();
+
+        for (Alumno alumno : listaAlumnos) {
+            if (alumno.getNombre().equalsIgnoreCase(nombre)) {
+                double notaFinal = alumno.notaFinal();
+                System.out.println("La nota final de " + alumno.getNombre() + " es: " + notaFinal);
+                return;
+            }
+        }
+
+        System.out.println("El alumno " + nombre + " no se encuentra en la lista.");
+    }
+}
+
+
+
+-------------------------------------------------------------------------------------------------
+
+
+public class Main {
+    public static void main(String[] args) {
+        ServicioAlumno servicio = new ServicioAlumno();
+
+        servicio.crearAlumnos();
+        servicio.buscarAlumno();
+    }
+}
+
